@@ -1,0 +1,44 @@
+﻿<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#home">
+            <img src="ARCHEA_Logo.svg" alt="ARCHEA Costruzioni" />
+            ARCHEA
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse @NavMenuCssClass" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#about-us" @onclick="ToggleNavMenu">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#services" @onclick="ToggleNavMenu">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#projects" @onclick="ToggleNavMenu">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#certifications" @onclick="ToggleNavMenu">Certifications</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact" @onclick="ToggleNavMenu">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : "show";
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
