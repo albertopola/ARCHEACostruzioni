@@ -1,0 +1,165 @@
+<div class="section-content">
+    <div class="container">
+        <h2 class="section-title">Contattaci</h2>
+        <div class="contact-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="contact-info">
+                        <h3>Informazioni di Contatto</h3>
+                        <div class="contact-item">
+                            <strong>📍 Sede Legale:</strong><br>
+                            Via delle Costruzioni, 123<br>
+                            20121 Milano (MI)<br>
+                            Italia
+                        </div>
+                        <div class="contact-item">
+                            <strong>📞 Telefono:</strong><br>
+                            +39 02 1234 5678
+                        </div>
+                        <div class="contact-item">
+                            <strong>📧 Email:</strong><br>
+                            info@archeacostruzioni.it
+                        </div>
+                        <div class="contact-item">
+                            <strong>🕒 Orari:</strong><br>
+                            Lun-Ven: 8:00 - 18:00<br>
+                            Sab: 8:00 - 13:00
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    @if (!showThankYou)
+                    {
+                        <div class="contact-form">
+                            <h3>Richiedi un Preventivo</h3>
+                            <EditForm Model="@contactModel" OnValidSubmit="@HandleValidSubmit">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+
+                                <div class="form-group">
+                                    <label for="nome">Nome *</label>
+                                    <InputText id="nome" class="form-control" @bind-Value="contactModel.Nome" />
+                                    <ValidationMessage For="@(() => contactModel.Nome)" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="cognome">Cognome *</label>
+                                    <InputText id="cognome" class="form-control" @bind-Value="contactModel.Cognome" />
+                                    <ValidationMessage For="@(() => contactModel.Cognome)" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Email *</label>
+                                    <InputText id="email" type="email" class="form-control" @bind-Value="contactModel.Email" />
+                                    <ValidationMessage For="@(() => contactModel.Email)" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="telefono">Telefono</label>
+                                    <InputText id="telefono" class="form-control" @bind-Value="contactModel.Telefono" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="servizio">Tipo di Servizio</label>
+                                    <InputSelect id="servizio" class="form-control" @bind-Value="contactModel.TipoServizio">
+                                        <option value="">Seleziona un servizio</option>
+                                        <option value="residenziale">Costruzioni Residenziali</option>
+                                        <option value="commerciale">Edilizia Commerciale</option>
+                                        <option value="ristrutturazione">Ristrutturazioni</option>
+                                        <option value="sostenibile">Edilizia Sostenibile</option>
+                                        <option value="impianti">Impianti Tecnologici</option>
+                                        <option value="manutenzione">Sicurezza e Manutenzione</option>
+                                    </InputSelect>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="messaggio">Messaggio *</label>
+                                    <InputTextArea id="messaggio" class="form-control" rows="5" @bind-Value="contactModel.Messaggio" />
+                                    <ValidationMessage For="@(() => contactModel.Messaggio)" />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Invia Richiesta</button>
+                            </EditForm>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="thank-you-message">
+                            <div class="thank-you-icon">✅</div>
+                            <h3>Grazie per averci contattato!</h3>
+                            <p>
+                                La tua richiesta è stata ricevuta con successo. Il nostro team ti contatterà 
+                                entro 24 ore per discutere del tuo progetto.
+                            </p>
+                            <p>
+                                <strong>Riepilogo della tua richiesta:</strong><br>
+                                Nome: @contactModel.Nome @contactModel.Cognome<br>
+                                Email: @contactModel.Email<br>
+                                @if (!string.IsNullOrEmpty(contactModel.TipoServizio))
+                                {
+                                    <span>Servizio: @GetServiceName(contactModel.TipoServizio)<br></span>
+                                }
+                            </p>
+                            <button class="btn btn-secondary" @onclick="ResetForm">Invia un'altra richiesta</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ContactModel contactModel = new();
+    private bool showThankYou = false;
+
+    private void HandleValidSubmit()
+    {
+        // Here you would typically send the data to a server
+        // For now, we just show the thank you message
+        showThankYou = true;
+    }
+
+    private void ResetForm()
+    {
+        contactModel = new ContactModel();
+        showThankYou = false;
+    }
+
+    private string GetServiceName(string serviceKey)
+    {
+        return serviceKey switch
+        {
+            "residenziale" => "Costruzioni Residenziali",
+            "commerciale" => "Edilizia Commerciale",
+            "ristrutturazione" => "Ristrutturazioni",
+            "sostenibile" => "Edilizia Sostenibile",
+            "impianti" => "Impianti Tecnologici",
+            "manutenzione" => "Sicurezza e Manutenzione",
+            _ => serviceKey
+        };
+    }
+
+    public class ContactModel
+    {
+        [Required(ErrorMessage = "Il nome è obbligatorio")]
+        public string Nome { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Il cognome è obbligatorio")]
+        public string Cognome { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "L'email è obbligatoria")]
+        [EmailAddress(ErrorMessage = "Inserisci un indirizzo email valido")]
+        public string Email { get; set; } = string.Empty;
+
+        public string Telefono { get; set; } = string.Empty;
+
+        public string TipoServizio { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Il messaggio è obbligatorio")]
+        [MinLength(10, ErrorMessage = "Il messaggio deve contenere almeno 10 caratteri")]
+        public string Messaggio { get; set; } = string.Empty;
+    }
+}
+
+@using System.ComponentModel.DataAnnotations

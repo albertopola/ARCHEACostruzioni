@@ -1,0 +1,22 @@
+<nav class="navbar">
+    <div class="navbar-brand">
+        <img src="images/ARCHEA_Logo.svg" alt="ARCHEA Costruzioni" class="logo" />
+        <span class="company-name">ARCHEA Costruzioni</span>
+    </div>
+    <div class="navbar-nav">
+        <a href="#about" class="nav-link" onclick="scrollToSection('about')">Chi Siamo</a>
+        <a href="#services" class="nav-link" onclick="scrollToSection('services')">Servizi</a>
+        <a href="#projects" class="nav-link" onclick="scrollToSection('projects')">Progetti</a>
+        <a href="#certifications" class="nav-link" onclick="scrollToSection('certifications')">Certificazioni</a>
+        <a href="#contact" class="nav-link" onclick="scrollToSection('contact')">Contatti</a>
+    </div>
+</nav>
+
+<script>
+    function scrollToSection(sectionId) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+</script>
