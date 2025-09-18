@@ -1,0 +1,41 @@
+﻿<nav class="navbar">
+    <div class="navbar-container">
+        <a href="#" class="navbar-brand">
+            <img src="images/ARCHEA_Logo.svg" alt="ARCHEA Costruzioni" class="logo" />
+        </a>
+        
+        <button class="navbar-toggle" @onclick="ToggleNavMenu" aria-label="Toggle navigation">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        
+        <div class="navbar-menu @NavMenuCssClass">
+            <a href="#about" class="nav-link" @onclick="@(() => ScrollToSection("about"))">About Us</a>
+            <a href="#services" class="nav-link" @onclick="@(() => ScrollToSection("services"))">Services</a>
+            <a href="#projects" class="nav-link" @onclick="@(() => ScrollToSection("projects"))">Projects</a>
+            <a href="#certifications" class="nav-link" @onclick="@(() => ScrollToSection("certifications"))">Certifications</a>
+            <a href="#contact" class="nav-link" @onclick="@(() => ScrollToSection("contact"))">Contact</a>
+        </div>
+    </div>
+</nav>
+
+@code {
+    private bool isNavMenuOpen = false;
+
+    private string NavMenuCssClass => isNavMenuOpen ? "navbar-menu-open" : "";
+
+    private void ToggleNavMenu()
+    {
+        isNavMenuOpen = !isNavMenuOpen;
+    }
+
+    private async Task ScrollToSection(string sectionId)
+    {
+        isNavMenuOpen = false; // Close mobile menu
+        await Task.Delay(100); // Small delay to allow menu to close
+        await JS.InvokeVoidAsync("scrollToSection", sectionId);
+    }
+
+    [Inject] IJSRuntime JS { get; set; } = default!;
+}

@@ -1,0 +1,48 @@
+﻿@page "/"
+
+<PageTitle>ARCHEA Costruzioni srl</PageTitle>
+
+<div class="home-page">
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <h1>ARCHEA Costruzioni srl</h1>
+            <p class="hero-subtitle">Eccellenza nella costruzione, qualità senza compromessi</p>
+            <a href="#about" class="cta-button" @onclick="@(() => ScrollToSection("about"))">Scopri di più</a>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="section">
+        <AboutUs />
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section">
+        <Services />
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <Projects />
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="section">
+        <Certifications />
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <Contact />
+    </section>
+</div>
+
+@code {
+    [Inject] IJSRuntime JS { get; set; } = default!;
+
+    private async Task ScrollToSection(string sectionId)
+    {
+        await JS.InvokeVoidAsync("scrollToSection", sectionId);
+    }
+}
